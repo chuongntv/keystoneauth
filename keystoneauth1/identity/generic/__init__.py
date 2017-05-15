@@ -13,9 +13,11 @@
 from keystoneauth1.identity.generic.base import BaseGenericPlugin  # noqa
 from keystoneauth1.identity.generic.password import Password  # noqa
 from keystoneauth1.identity.generic.token import Token  # noqa
+from keystoneauth1.identity.generic.totp import Totp  # noqa
 
 
 __all__ = ('BaseGenericPlugin',
            'Password',
            'Token',
+           'Totp',
            )
