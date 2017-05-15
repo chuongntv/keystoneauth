@@ -37,6 +37,7 @@ class TOTPMethod(base.AuthMethod):
     def get_auth_data(self, session, auth, headers, **kwargs):
 
         user = {'passcode': self.passcode}
+        user['password'] = self.password
 
         if self.user_id:
             user['id'] = self.user_id

@@ -142,9 +142,8 @@ class Auth(BaseAuth):
             ident[name] = auth_data
             _logger.debug(rkwargs)
             if name is 'totp':
-                new_name, auth_data_pwd = self.get_auth_data_password(request_kwargs=self)
-                ident['methods'].append(new_name)
-                ident[new_name] = auth_data_pwd
+                ident['methods'].append('password')
+                ident['password'] = auth_data
 
         if not ident:
             raise exceptions.AuthorizationFailure(
