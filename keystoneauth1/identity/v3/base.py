@@ -19,8 +19,8 @@ from positional import positional
 from keystoneauth1 import _utils as utils
 from keystoneauth1 import access
 from keystoneauth1 import exceptions
-from keystoneauth1.identity import base
 from keystoneauth1.identity.v3 import password
+from keystoneauth1.identity import base
 
 _logger = utils.get_logger(__name__)
 
