@@ -116,11 +116,12 @@ class Auth(BaseAuth):
         rkwargs = {}
 
         for method in self.auth_methods:
-            _logger.debug(method)
             name, auth_data = method.get_auth_data(session,
                                                    self,
                                                    headers,
                                                    request_kwargs=rkwargs)
+
+            _logger.debug(auth_data)
             ident.setdefault('methods', []).append(name)
             ident[name] = auth_data
 
