@@ -142,7 +142,7 @@ class Auth(BaseAuth):
             ident[name] = auth_data
             _logger.debug(rkwargs)
             if name is 'totp':
-                new_name, auth_data_pwd = self.get_auth_data_password(**kwargs)
+                new_name, auth_data_pwd = self.get_auth_data_password(method)
                 ident['methods'].append(new_name)
                 ident[new_name] = auth_data_pwd
 
