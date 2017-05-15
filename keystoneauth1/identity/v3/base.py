@@ -121,6 +121,7 @@ class Auth(BaseAuth):
                                                    headers,
                                                    request_kwargs=rkwargs)
 
+            _logger.debug(name)
             _logger.debug(auth_data)
             ident.setdefault('methods', []).append(name)
             ident[name] = auth_data
@@ -230,6 +231,8 @@ class AuthMethod(object):
     @classmethod
     def _extract_kwargs(cls, kwargs):
         """Remove parameters related to this method from other kwargs."""
+        _logger.debug(dict([(p, kwargs.pop(p, None))
+                     for p in cls._method_parameters]))
         return dict([(p, kwargs.pop(p, None))
                      for p in cls._method_parameters])
 
