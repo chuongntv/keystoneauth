@@ -233,8 +233,6 @@ class AuthMethod(object):
     @classmethod
     def _extract_kwargs(cls, kwargs):
         """Remove parameters related to this method from other kwargs."""
-        _logger.debug('5 - %s', dict([(p, kwargs.pop(p, None))
-                     for p in cls._method_parameters]))
         return dict([(p, kwargs.pop(p, None))
                      for p in cls._method_parameters])
 
