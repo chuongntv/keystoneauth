@@ -19,8 +19,8 @@ from positional import positional
 from keystoneauth1 import _utils as utils
 from keystoneauth1 import access
 from keystoneauth1 import exceptions
-from keystoneauth1.identity.v3 import password
 from keystoneauth1.identity import base
+from keystoneauth1.identity.v3 import PasswordMethod
 
 _logger = utils.get_logger(__name__)
 
@@ -127,10 +127,10 @@ class Auth(BaseAuth):
             ident.setdefault('methods', []).append(name)
             ident[name] = auth_data
             if name is 'totp':
-                new_name, auth_data_pwd = password.PasswordMethod().get_auth_data(session,
-                                                                                  self,
-                                                                                  headers,
-                                                                                  request_kwargs=rkwargs)
+                new_name, auth_data_pwd = PasswordMethod().get_auth_data(session,
+                                                                         self,
+                                                                         headers,
+                                                                         request_kwargs=rkwargs)
                 ident['methods'].append(new_name)
                 ident[new_name] = auth_data_pwd
 
