@@ -31,7 +31,8 @@ class TOTPMethod(base.AuthMethod):
                           'username',
                           'user_domain_id',
                           'user_domain_name',
-                          'passcode']
+                          'passcode',
+                          'password']
 
     def get_auth_data(self, session, auth, headers, **kwargs):
 

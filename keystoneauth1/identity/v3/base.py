@@ -112,17 +112,17 @@ class Auth(BaseAuth):
         _logger.debug('2 - %s', kwargs)
 
     def get_auth_data_password(self, **kwargs):
-        user = {'password': self.password}
+        user = {'password': kwargs.get('password')}
 
-        if self.user_id:
-            user['id'] = self.user_id
-        elif self.username:
-            user['name'] = self.username
+        if kwargs.get('user_id'):
+            user['id'] = kwargs.get('user_id')
+        elif kwargs.get('username'):
+            user['name'] = kwargs.get('username')
 
-            if self.user_domain_id:
-                user['domain'] = {'id': self.user_domain_id}
-            elif self.user_domain_name:
-                user['domain'] = {'name': self.user_domain_name}
+            if kwargs.get('user_domain_id'):
+                user['domain'] = {'id': kwargs.get('user_domain_id')}
+            elif kwargs.get('user_domain_name'):
+                user['domain'] = {'name': kwargs.get('user_domain_name')}
 
         return 'password', {'user': user}
 
