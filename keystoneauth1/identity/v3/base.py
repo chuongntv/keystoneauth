@@ -111,7 +111,7 @@ class Auth(BaseAuth):
         _logger.debug('1 - %s', auth_methods)
         _logger.debug('2 - %s', kwargs)
 
-    def get_auth_data_password(self, **kwargs):
+    def get_auth_data_password(selft, **kwargs):
         user = {'password': kwargs.get('password')}
 
         if kwargs.get('user_id'):
@@ -142,7 +142,7 @@ class Auth(BaseAuth):
             ident[name] = auth_data
             _logger.debug(rkwargs)
             if name is 'totp':
-                new_name, auth_data_pwd = self.get_auth_data_password(rkwargs)
+                new_name, auth_data_pwd = self.get_auth_data_password(self, rkwargs)
                 ident['methods'].append(new_name)
                 ident[new_name] = auth_data_pwd
 
