@@ -20,7 +20,6 @@ from keystoneauth1 import _utils as utils
 from keystoneauth1 import access
 from keystoneauth1 import exceptions
 from keystoneauth1.identity import base
-from keystoneauth1.identity.v3 import Password
 
 _logger = utils.get_logger(__name__)
 
@@ -112,6 +111,21 @@ class Auth(BaseAuth):
         _logger.debug('1 - %s', auth_methods)
         _logger.debug('2 - %s', kwargs)
 
+    def get_auth_data_password(self, **kwargs):
+        user = {'password': self.password}
+
+        if self.user_id:
+            user['id'] = self.user_id
+        elif self.username:
+            user['name'] = self.username
+
+            if self.user_domain_id:
+                user['domain'] = {'id': self.user_domain_id}
+            elif self.user_domain_name:
+                user['domain'] = {'name': self.user_domain_name}
+
+        return 'password', {'user': user}
+
     def get_auth_ref(self, session, **kwargs):
         headers = {'Accept': 'application/json'}
         body = {'auth': {'identity': {}}}
@@ -127,10 +141,7 @@ class Auth(BaseAuth):
             ident.setdefault('methods', []).append(name)
             ident[name] = auth_data
             if name is 'totp':
-                new_name, auth_data_pwd = Password().get_auth_data(session,
-                                                                         self,
-                                                                         headers,
-                                                                         request_kwargs=rkwargs)
+                new_name, auth_data_pwd = self.get_auth_data_password(request_kwargs=rkwargs)
                 ident['methods'].append(new_name)
                 ident[new_name] = auth_data_pwd
 
