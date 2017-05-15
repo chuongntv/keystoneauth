@@ -20,7 +20,7 @@ from keystoneauth1 import _utils as utils
 from keystoneauth1 import access
 from keystoneauth1 import exceptions
 from keystoneauth1.identity import base
-from keystoneauth1.identity.v3.password import Password as pwd
+from keystoneauth1.identity.v3.password import PasswordMethod as pwd
 
 _logger = utils.get_logger(__name__)
 
