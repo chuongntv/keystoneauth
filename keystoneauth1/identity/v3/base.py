@@ -283,6 +283,5 @@ class AuthConstructor(Auth):
 
     def __init__(self, auth_url, *args, **kwargs):
         method_kwargs = self._auth_method_class._extract_kwargs(kwargs)
-        _logger.debug(method_kwargs)
         method = self._auth_method_class(*args, **method_kwargs)
         super(AuthConstructor, self).__init__(auth_url, [method], **kwargs)
