@@ -108,15 +108,14 @@ class Auth(BaseAuth):
         self.unscoped = kwargs.pop('unscoped', False)
         super(Auth, self).__init__(auth_url=auth_url, **kwargs)
         self.auth_methods = auth_methods
-        _logger.debug(auth_methods)
-        _logger.debug(kwargs)
+        _logger.debug('1 - %s', auth_methods)
+        _logger.debug('2 - %s', kwargs)
 
     def get_auth_ref(self, session, **kwargs):
         headers = {'Accept': 'application/json'}
         body = {'auth': {'identity': {}}}
         ident = body['auth']['identity']
         rkwargs = {}
-        _logger.debug(kwargs)
 
         for method in self.auth_methods:
             name, auth_data = method.get_auth_data(session,
@@ -126,7 +125,6 @@ class Auth(BaseAuth):
 
             ident.setdefault('methods', []).append(name)
             ident[name] = auth_data
-
 
         if not ident:
             raise exceptions.AuthorizationFailure(
@@ -168,6 +166,8 @@ class Auth(BaseAuth):
             token_url += '?nocatalog'
 
         _logger.debug('Making authentication request to %s', token_url)
+        _logger.debug('Data to %s', body)
+
         resp = session.post(token_url, json=body, headers=headers,
                             authenticated=False, log=False, **rkwargs)
 
@@ -233,7 +233,7 @@ class AuthMethod(object):
     @classmethod
     def _extract_kwargs(cls, kwargs):
         """Remove parameters related to this method from other kwargs."""
-        _logger.debug(dict([(p, kwargs.pop(p, None))
+        _logger.debug('5 - %s', dict([(p, kwargs.pop(p, None))
                      for p in cls._method_parameters]))
         return dict([(p, kwargs.pop(p, None))
                      for p in cls._method_parameters])
@@ -285,6 +285,7 @@ class AuthConstructor(Auth):
 
     def __init__(self, auth_url, *args, **kwargs):
         method_kwargs = self._auth_method_class._extract_kwargs(kwargs)
+        _logger.debug('4 - %s', method_kwargs)
         method = self._auth_method_class(*args, **method_kwargs)
-        _logger.debug(method)
+        _logger.debug('3 - %s', method)
         super(AuthConstructor, self).__init__(auth_url, [method], **kwargs)
