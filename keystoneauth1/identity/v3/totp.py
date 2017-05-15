@@ -14,8 +14,6 @@ import copy
 
 from keystoneauth1.identity.v3 import base, utils
 
-_logger = utils.get_logger(__name__)
-
 __all__ = ('TOTPMethod', 'TOTP')
 
 
@@ -48,7 +46,7 @@ class TOTPMethod(base.AuthMethod):
                 user['domain'] = {'id': self.user_domain_id}
             elif self.user_domain_name:
                 user['domain'] = {'name': self.user_domain_name}
-        _logger.debug(user)
+
         return 'totp', {'user': user}
 
     def get_cache_id_elements(self):
