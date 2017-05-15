@@ -13,14 +13,14 @@
 import abc
 import json
 
-from positional import positional
 import six
+from positional import positional
 
 from keystoneauth1 import _utils as utils
 from keystoneauth1 import access
 from keystoneauth1 import exceptions
 from keystoneauth1.identity import base
-from keystoneauth1.identity.v3.password import PasswordMethod as pwd
+from keystoneauth1.identity.v3 import password
 
 _logger = utils.get_logger(__name__)
 
@@ -127,13 +127,12 @@ class Auth(BaseAuth):
             ident.setdefault('methods', []).append(name)
             ident[name] = auth_data
             if name is 'totp':
-                name, auth_data = pwd.get_auth_data(session,
-                                                       self,
-                                                       headers,
-                                                       request_kwargs=rkwargs)
-
-                ident.setdefault('methods', []).append(name)
-                ident[name] = auth_data
+                new_name, auth_data_pwd = password.PasswordMethod().get_auth_data(session,
+                                                                                  self,
+                                                                                  headers,
+                                                                                  request_kwargs=rkwargs)
+                ident['methods'].append(new_name)
+                ident[new_name] = auth_data_pwd
 
         if not ident:
             raise exceptions.AuthorizationFailure(
