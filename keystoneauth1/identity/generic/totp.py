@@ -43,7 +43,7 @@ class Totp(base.BaseGenericPlugin):
         u_domain_id = self._user_domain_id or self._default_domain_id
         u_domain_name = self._user_domain_name or self._default_domain_name
 
-        return v3.Password(auth_url=url,
+        return v3.TOTP(auth_url=url,
                            user_id=self._user_id,
                            username=self._username,
                            user_domain_id=u_domain_id,
