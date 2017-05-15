@@ -108,12 +108,15 @@ class Auth(BaseAuth):
         self.unscoped = kwargs.pop('unscoped', False)
         super(Auth, self).__init__(auth_url=auth_url, **kwargs)
         self.auth_methods = auth_methods
+        _logger.debug(auth_methods)
+        _logger.debug(kwargs)
 
     def get_auth_ref(self, session, **kwargs):
         headers = {'Accept': 'application/json'}
         body = {'auth': {'identity': {}}}
         ident = body['auth']['identity']
         rkwargs = {}
+        _logger.debug(kwargs)
 
         for method in self.auth_methods:
             name, auth_data = method.get_auth_data(session,
@@ -124,7 +127,6 @@ class Auth(BaseAuth):
             ident.setdefault('methods', []).append(name)
             ident[name] = auth_data
 
-        _logger.debug(ident)
 
         if not ident:
             raise exceptions.AuthorizationFailure(
