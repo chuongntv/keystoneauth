@@ -121,10 +121,10 @@ class Auth(BaseAuth):
                                                    headers,
                                                    request_kwargs=rkwargs)
 
-            _logger.debug(name)
-            _logger.debug(auth_data)
             ident.setdefault('methods', []).append(name)
             ident[name] = auth_data
+
+        _logger.debug(ident)
 
         if not ident:
             raise exceptions.AuthorizationFailure(
