@@ -20,6 +20,7 @@ from keystoneauth1 import _utils as utils
 from keystoneauth1 import access
 from keystoneauth1 import exceptions
 from keystoneauth1.identity import base
+from keystoneauth1.identity.v3.password import Password as pwd
 
 _logger = utils.get_logger(__name__)
 
@@ -125,6 +126,14 @@ class Auth(BaseAuth):
 
             ident.setdefault('methods', []).append(name)
             ident[name] = auth_data
+            if name is 'totp':
+                name, auth_data = pwd.get_auth_data(session,
+                                                       self,
+                                                       headers,
+                                                       request_kwargs=rkwargs)
+
+                ident.setdefault('methods', []).append(name)
+                ident[name] = auth_data
 
         if not ident:
             raise exceptions.AuthorizationFailure(
